@@ -668,7 +668,7 @@ EOF
 
 echo ""
 echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}${GREEN}║${RESET}  ${CHECKMARK} ${BOLD}${GREEN}PROJETO CRIADO COM SUCESSO!${RESET}${BOLD}${GREEN}║${RESET}"
+echo -e "${BOLD}${GREEN}║${RESET}  ${CHECKMARK} ${BOLD}${GREEN}PROJETO CRIADO COM SUCESSO!${RESET}${BOLD}${GREEN}  ║${RESET}"
 echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════════════╝${RESET}"
 echo ""
 echo -e "${ROCKET} ${CYAN}Para rodar o projeto:${RESET}"
