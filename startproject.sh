@@ -242,6 +242,7 @@ EOF
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="text-center">
         <h1 class="text-4xl font-bold text-green-400 mb-4">
@@ -267,6 +268,7 @@ EOF
     
     <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>Olá, rota ${ROTA} criada com sucesso!</h1>
