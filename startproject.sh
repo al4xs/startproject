@@ -109,6 +109,7 @@ echo -e "${BOLD}${BLUE}╚══════════════════
 echo ""
 echo -e "${GEAR} ${CYAN}Projeto:${RESET} ${GREEN}$PROJETO${RESET}"
 echo -e "${GEAR} ${CYAN}Rotas:${RESET} ${GREEN}${ROTAS[*]}${RESET}"
+
 if [[ $DB -eq 1 ]]; then
     echo -e "${DATABASE} ${CYAN}Banco de dados:${RESET} ${GREEN}Habilitado${RESET} - Models: ${GREEN}${MODELS[*]}${RESET}"
 fi
@@ -132,8 +133,7 @@ mkdir -p "$PROJETO/routes"
 cat <<EOF > "$PROJETO/main.py"
 from flask import Flask
 from routes import blueprints
-$([[ $DB -eq 1 ]] && echo "from extensions import db")
-$([[ $LOGIN -eq 1 ]] && echo "from extensions import login_manager")
+$([[ $DB -eq 1 ]] && echo "from extensions import db, login_manager")
 
 app = Flask(__name__)
 
@@ -183,7 +183,7 @@ for ROTA in "${ROTAS[@]}"; do
         cat <<EOF > "$PROJETO/routes/$ROTA/$ROTA.py"
 from flask import Blueprint, jsonify
 $([[ $DB -eq 1 ]] && echo "from extensions import db")
-$([[ $DB -eq 1 ]] && printf "from models import %s" "$(IFS=', '; printf '%s' "${MODELS[*]}")")
+$([[ $DB -eq 1 ]] && printf "from models import %s" "$(IFS=', '; printf '%s ' "${MODELS[*]}")")
 
 ${ROTA}_bp = Blueprint("${ROTA}", __name__)
 
