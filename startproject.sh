@@ -212,10 +212,9 @@ EOF
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Página ${ROTA}</title>
-        
-    <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
+    <title>Página ${ROTA}</title>        
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="text-center">
         <h1 class="text-4xl font-bold text-green-400 mb-4">
@@ -342,10 +341,9 @@ EOF
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Login</title>
-    
-    <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
+    <title>Login</title>    
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 class="text-3xl font-bold text-green-400 mb-6 text-center">
@@ -386,7 +384,7 @@ EOF
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('$static', filename='css/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -469,16 +467,19 @@ form {
   flex-direction: column; 
   max-width: 300px; 
 }
+
 input, button { 
   margin: 5px 0; 
   padding: 10px; 
 }
+
 button {  
   border: none; 
   cursor: pointer;
   color: white;
   background-color: #4CAF50;
 }
+
 button:hover { 
   background: #45a049; 
 }
@@ -592,7 +593,7 @@ EOF
 
 echo ""
 echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════════════════╗${RESET}"
-echo -e "${BOLD}${GREEN}║${RESET}  ${CHECKMARK} ${BOLD}${GREEN}PROJETO CRIADO COM SUCESSO!${RESET}                   ${BOLD}${GREEN}║${RESET}"
+echo -e "${BOLD}${GREEN}║${RESET}  ${CHECKMARK} ${BOLD}${GREEN}PROJETO CRIADO COM SUCESSO!${RESET}${BOLD}${GREEN}║${RESET}"
 echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════════════╝${RESET}"
 echo ""
 echo -e "${ROCKET} ${CYAN}Para rodar o projeto:${RESET}"
