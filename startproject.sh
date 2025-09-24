@@ -211,8 +211,9 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Página ${ROTA}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+        
     <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -220,10 +221,13 @@ EOF
         <h1 class="text-4xl font-bold text-green-400 mb-4">
             ✨ Rota ${ROTA} criada com sucesso!
         </h1>
+    
         <p class="text-gray-300">
             Powered by Flask + Tailwind CSS
         </p>
     </div>
+
+    <script src="https://cdn.tailwindcss.com" defer></script>
 </body>
 </html>
 EOF
@@ -234,15 +238,17 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Página ${ROTA}</title>
-    <link rel="stylesheet" href="/static/css/output.css">
-    <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="text-center">
         <h1 class="text-4xl font-bold text-green-400 mb-4">
             ✨ Rota ${ROTA} criada com sucesso!
         </h1>
+        
         <p class="text-gray-300">
             Powered by Flask + Tailwind CSS (Build)
         </p>
@@ -257,7 +263,9 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Página ${ROTA}</title>
+    
     <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
 </head>
 <body>
@@ -271,11 +279,13 @@ EOF
 
         cat <<EOF > "$PROJETO/routes/$ROTA/static/css/style.css"
 body { 
-  font-family: Arial, sans-serif; 
-  background-color: #121212; 
-  color: #ddd; 
   margin: 0; 
-  padding: 20px; }
+  padding: 20px; 
+  font-family: Arial, sans-serif; 
+  color: #ddd; 
+  background-color: #121212; 
+}
+
 h1 { 
   color: #4CAF50; 
 }
@@ -331,8 +341,9 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -340,6 +351,7 @@ EOF
         <h1 class="text-3xl font-bold text-green-400 mb-6 text-center">
             🔐 Login
         </h1>
+        
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="bg-red-600 text-white p-3 rounded mb-4">
@@ -347,16 +359,21 @@ EOF
                 </div>
             {% endif %}
         {% endwith %}
+        
         <form method="POST" class="space-y-4">
             <input type="text" name="username" placeholder="Usuário" required 
                    class="w-full p-3 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-green-400 focus:outline-none">
+        
             <input type="password" name="password" placeholder="Senha" required 
                    class="w-full p-3 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-green-400 focus:outline-none">
+            
             <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-200">
                 Entrar
             </button>
         </form>
     </div>
+
+    <script src="https://cdn.tailwindcss.com" defer></script>
 </body>
 </html>
 EOF
@@ -367,15 +384,17 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Login</title>
-    <link rel="stylesheet" href="/static/css/output.css">
-    <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('$static', filename='css/output.css') }}">
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 class="text-3xl font-bold text-green-400 mb-6 text-center">
             🔐 Login
         </h1>
+        
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="bg-red-600 text-white p-3 rounded mb-4">
@@ -383,11 +402,14 @@ EOF
                 </div>
             {% endif %}
         {% endwith %}
+        
         <form method="POST" class="space-y-4">
             <input type="text" name="username" placeholder="Usuário" required 
                    class="w-full p-3 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-green-400 focus:outline-none">
+        
             <input type="password" name="password" placeholder="Senha" required 
                    class="w-full p-3 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-green-400 focus:outline-none">
+            
             <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-200">
                 Entrar
             </button>
@@ -403,17 +425,21 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Login</title>
+    
     <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
         <h1>Página de Login</h1>
+    
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="error">{{ messages[0] }}</div>
             {% endif %}
         {% endwith %}
+        
         <form method="POST">
             <input type="text" name="username" placeholder="Usuário" required>
             <input type="password" name="password" placeholder="Senha" required>
@@ -426,16 +452,18 @@ EOF
     fi
 
     cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/static/css/style.css"
-body { 
-  font-family: Arial, sans-serif; 
-  background-color: #121212; 
-  color: #ddd; 
+body {   
   margin: 0; 
-  padding: 20px; 
+  padding: 20px;
+  color: #ddd;
+  background-color: #121212; 
+  font-family: Arial, sans-serif;
 }
+
 h1 { 
   color: #4CAF50; 
 }
+
 form { 
   display: flex; 
   flex-direction: column; 
@@ -445,11 +473,11 @@ input, button {
   margin: 5px 0; 
   padding: 10px; 
 }
-button { 
-  background: #4CAF50;
-  color: white; 
+button {  
   border: none; 
-  cursor: pointer; 
+  cursor: pointer;
+  color: white;
+  background-color: #4CAF50;
 }
 button:hover { 
   background: #45a049; 
