@@ -178,7 +178,11 @@ echo "]" >> "$PROJETO/routes/__init__.py"
 # Criar rotas normais
 #########################################
 for ROTA in "${ROTAS[@]}"; do
-    mkdir -p "$PROJETO/routes/$ROTA/templates" "$PROJETO/routes/$ROTA/static/css"
+    if [[ $TAILWIND -eq 1 ]]; then
+        mkdir -p "$PROJETO/routes/$ROTA/templates"
+    else
+        mkdir -p "$PROJETO/routes/$ROTA/templates" "$PROJETO/routes/$ROTA/static/css"
+    fi
     if [[ $API -eq 1 ]]; then
         cat <<EOF > "$PROJETO/routes/$ROTA/$ROTA.py"
 from flask import Blueprint, jsonify
@@ -192,7 +196,20 @@ def ${ROTA}():
     return jsonify({"message": "API da rota ${ROTA} funcionando!"})
 EOF
     else
-        cat <<EOF > "$PROJETO/routes/$ROTA/$ROTA.py"
+        if [[ $TAILWIND -eq 1 ]]; then
+            cat <<EOF > "$PROJETO/routes/$ROTA/$ROTA.py"
+from flask import Blueprint, render_template
+$([[ $DB -eq 1 ]] && echo "from extensions import db")
+$([[ $DB -eq 1 ]] && printf "from models import %s" "$(IFS=', '; printf '%s' "${MODELS[*]}")")
+
+${ROTA}_bp = Blueprint("${ROTA}", __name__, template_folder="templates")
+
+@${ROTA}_bp.route("/")
+def ${ROTA}():
+    return render_template("${ROTA}.html")
+EOF
+        else
+            cat <<EOF > "$PROJETO/routes/$ROTA/$ROTA.py"
 from flask import Blueprint, render_template
 $([[ $DB -eq 1 ]] && echo "from extensions import db")
 $([[ $DB -eq 1 ]] && printf "from models import %s" "$(IFS=', '; printf '%s' "${MODELS[*]}")")
@@ -203,6 +220,7 @@ ${ROTA}_bp = Blueprint("${ROTA}", __name__, template_folder="templates", static_
 def ${ROTA}():
     return render_template("${ROTA}.html")
 EOF
+        fi
 
         if [[ $TAILWIND -eq 1 && "$TAILWIND_TYPE" == "cdn" ]]; then
             cat <<EOF > "$PROJETO/routes/$ROTA/templates/$ROTA.html"
@@ -212,7 +230,7 @@ EOF
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Página ${ROTA}</title>        
+    <title>Página ${ROTA}</title>
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -220,7 +238,6 @@ EOF
         <h1 class="text-4xl font-bold text-green-400 mb-4">
             ✨ Rota ${ROTA} criada com sucesso!
         </h1>
-    
         <p class="text-gray-300">
             Powered by Flask + Tailwind CSS
         </p>
@@ -239,7 +256,7 @@ EOF
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Página ${ROTA}</title>
-
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 
@@ -248,7 +265,6 @@ EOF
         <h1 class="text-4xl font-bold text-green-400 mb-4">
             ✨ Rota ${ROTA} criada com sucesso!
         </h1>
-        
         <p class="text-gray-300">
             Powered by Flask + Tailwind CSS (Build)
         </p>
@@ -278,7 +294,8 @@ EOF
 EOF
         fi
 
-        cat <<EOF > "$PROJETO/routes/$ROTA/static/css/style.css"
+        if [[ $TAILWIND -eq 0 ]]; then
+            cat <<EOF > "$PROJETO/routes/$ROTA/static/css/style.css"
 body { 
   margin: 0; 
   padding: 20px; 
@@ -291,6 +308,7 @@ h1 {
   color: #4CAF50; 
 }
 EOF
+        fi
     fi
 done
 
@@ -298,15 +316,20 @@ done
 # Criar rota de login (-l)
 #########################################
 if [[ $LOGIN -eq 1 ]]; then
-    mkdir -p "$PROJETO/routes/$LOGIN_NAME/templates" "$PROJETO/routes/$LOGIN_NAME/static/css"
+    if [[ $TAILWIND -eq 1 ]]; then
+        mkdir -p "$PROJETO/routes/$LOGIN_NAME/templates"
+    else
+        mkdir -p "$PROJETO/routes/$LOGIN_NAME/templates" "$PROJETO/routes/$LOGIN_NAME/static/css"
+    fi
 
-    cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/$LOGIN_NAME.py"
+    if [[ $TAILWIND -eq 1 ]]; then
+        cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/$LOGIN_NAME.py"
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required
 from models import $(IFS=', '; echo "${MODELS[*]}")
 from extensions import login_manager
 
-${LOGIN_NAME}_bp = Blueprint("${LOGIN_NAME}", __name__, template_folder="templates", static_folder="static")
+${LOGIN_NAME}_bp = Blueprint("${LOGIN_NAME}", __name__, template_folder="templates")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -334,6 +357,42 @@ def logout():
     logout_user()
     return redirect(url_for("${LOGIN_NAME}.${LOGIN_NAME}"))
 EOF
+    else
+        cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/$LOGIN_NAME.py"
+from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask_login import login_user, logout_user, login_required
+from models import $(IFS=', '; echo "${MODELS[*]}")
+from extensions import login_manager
+
+${LOGIN_NAME}_bp = Blueprint("${LOGIN_NAME}", __name__, template_folder="templates", static_folder="static", static_url_path="/${LOGIN_NAME}/static")
+
+@login_manager.user_loader
+def load_user(user_id):
+    return $(echo "${MODELS[0]}").query.get(int(user_id))
+
+@${LOGIN_NAME}_bp.route("/${LOGIN_NAME}", methods=["GET", "POST"])
+def ${LOGIN_NAME}():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        if username and password:
+            user = $(echo "${MODELS[0]}").query.filter_by(username=username).first()
+            if user:
+                login_user(user)
+                return redirect(url_for("home.home"))
+        
+        flash("Credenciais inválidas")
+    
+    return render_template("${LOGIN_NAME}.html")
+
+@${LOGIN_NAME}_bp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("${LOGIN_NAME}.${LOGIN_NAME}"))
+EOF
+    fi
 
     if [[ $TAILWIND -eq 1 && "$TAILWIND_TYPE" == "cdn" ]]; then
         cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/templates/$LOGIN_NAME.html"
@@ -342,8 +401,8 @@ EOF
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Login</title>    
+
+    <title>Login</title>
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -372,7 +431,6 @@ EOF
             </button>
         </form>
     </div>
-
     <script src="https://cdn.tailwindcss.com" defer></script>
 </body>
 </html>
@@ -386,6 +444,7 @@ EOF
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Login</title>
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 
@@ -430,6 +489,7 @@ EOF
     
     <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>Página de Login</h1>
@@ -451,7 +511,8 @@ EOF
 EOF
     fi
 
-    cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/static/css/style.css"
+    if [[ $TAILWIND -eq 0 ]]; then
+        cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/static/css/style.css"
 body {   
   margin: 0; 
   padding: 20px;
@@ -486,6 +547,7 @@ button:hover {
   background: #45a049; 
 }
 EOF
+    fi
 fi
 
 #########################################
@@ -591,6 +653,11 @@ EOF
 # Criar .gitignore
 cat <<EOF > "$PROJETO/.gitignore"
 __pycache__/
+node_modules/
+src/
+tailwind.config.js
+package.json
+package-lock.json
 EOF
 
 echo ""
