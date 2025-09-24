@@ -296,9 +296,12 @@ EOF
 
         if [[ $TAILWIND -eq 0 ]]; then
             cat <<EOF > "$PROJETO/routes/$ROTA/static/css/style.css"
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body { 
-  margin: 0; 
-  padding: 20px; 
   font-family: Arial, sans-serif; 
   color: #ddd; 
   background-color: #121212; 
@@ -513,9 +516,12 @@ EOF
 
     if [[ $TAILWIND -eq 0 ]]; then
         cat <<EOF > "$PROJETO/routes/$LOGIN_NAME/static/css/style.css"
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {   
-  margin: 0; 
-  padding: 20px;
   color: #ddd;
   background-color: #121212; 
   font-family: Arial, sans-serif;
