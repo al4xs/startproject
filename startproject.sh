@@ -99,6 +99,7 @@ echo "${BOLD}${BLUE}╚═══════════════════
 echo ""
 echo "${GEAR} ${CYAN}Projeto:${RESET} ${GREEN}$PROJETO${RESET}"
 echo "${GEAR} ${CYAN}Rotas:${RESET} ${GREEN}${ROTAS[*]}${RESET}"
+
 if [[ $DB -eq 1 ]]; then
     echo "${DATABASE} ${CYAN}Banco de dados:${RESET} ${GREEN}Habilitado${RESET} - Models: ${GREEN}${MODELS[*]}${RESET}"
 fi
@@ -210,15 +211,19 @@ EOF
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Página ${ROTA}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
     <div class="text-center">
         <h1 class="text-4xl font-bold text-green-400 mb-4">✨ Rota ${ROTA} criada com sucesso!</h1>
         <p class="text-gray-300">Powered by Flask + Tailwind CSS</p>
     </div>
+
+    <script src="https://cdn.tailwindcss.com" defer></script>
 </body>
 </html>
 EOF
@@ -228,9 +233,13 @@ EOF
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Página ${ROTA}</title>
+    
     <link rel="stylesheet" href="{{ url_for('${ROTA}.static', filename='css/style.css') }}">
 </head>
+
 <body>
     <h1>Olá, rota ${ROTA} criada com sucesso!</h1>
 </body>
@@ -244,7 +253,9 @@ body {
   background-color: #121212; 
   color: #ddd; 
   margin: 0; 
-  padding: 20px; }
+  padding: 20px; 
+}
+
 h1 { 
   color: #4CAF50; 
 }
@@ -305,8 +316,9 @@ EOF
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+        
     <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center">
@@ -329,6 +341,8 @@ EOF
             </button>
         </form>
     </div>
+
+    <script src="https://cdn.tailwindcss.com" defer></script>
 </body>
 </html>
 EOF
@@ -338,7 +352,10 @@ EOF
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
+    
     <link rel="stylesheet" href="{{ url_for('${LOGIN_NAME}.static', filename='css/style.css') }}">
 </head>
 <body>
@@ -361,24 +378,29 @@ body {
   margin: 0; 
   padding: 20px; 
 }
+
 h1 { 
   color: #4CAF50; 
 }
+
 form { 
   display: flex; 
   flex-direction: column; 
   max-width: 300px; 
 }
+
 input, button { 
   margin: 5px 0; 
   padding: 10px; 
 }
+
 button { 
   background: #4CAF50;
   color: white; 
   border: none; 
   cursor: pointer; 
 }
+
 button:hover { 
   background: #45a049; 
 }
